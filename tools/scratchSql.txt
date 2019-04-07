@@ -1,0 +1,18 @@
+#Enable PostGIS for db
+SELECT postgis_full_version();
+CREATE EXTENSION postgis;
+SELECT postgis_full_version();
+
+
+
+
+Select name, way from planet_osm_polygon;
+Select name, ST_SIMPLIFY(way, 250, true) from planet_osm_polygon;
+UPDATE planet_osm_polygon SET way=ST_SIMPLIFY(way, 250, true);
+Select name, way from planet_osm_polygon where "name" = 'Esslingen am Neckar';
+Select name, ST_AsText(ST_SIMPLIFY(way, 250, true)) from planet_osm_polygon;
+Select name, ST_AsGeoJSON(ST_SIMPLIFY(way, 250, true)) from planet_osm_polygon;
+
+
+To see your positions display properly as Latitude / Longitude text, you need to transform your data from 900913 (google mercator) SRID to 4326 (wgs84) before passing it through ST_AsLatLonText. Something like this:
+Select name, ST_AsText(ST_SIMPLIFY(ST_Transform(way, 4326), 250, true)) from planet_osm_polygon;

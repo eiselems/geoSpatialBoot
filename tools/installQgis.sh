@@ -1,0 +1,2 @@
+brew tap osgeo/osgeo4mac                                                                                                                                                   ✔  10113  11:33:32
+brew install qgis
